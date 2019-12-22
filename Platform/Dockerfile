@@ -7,8 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
-COPY ["Platform/Platform.csproj", "Platform/"]
-RUN dotnet restore "Platform/Platform.csproj"
+RUN dotnet restore "Platform.csproj"
 COPY . .
 WORKDIR "/src/Platform"
 RUN dotnet build "Platform.csproj" -c Release -o /app/build
