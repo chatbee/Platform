@@ -6,11 +6,15 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM node:12
+#Install node and npm
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    node -v && npm -v #If install fails, this will cause an error and build will fail
+
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY . .
+COPY . /src
 RUN dotnet restore "Platform.csproj"
 WORKDIR "/src/Platform"
 RUN dotnet build "Platform.csproj" -c Release -o /app/build
