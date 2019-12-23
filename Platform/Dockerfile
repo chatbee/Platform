@@ -10,8 +10,8 @@ FROM node:12
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-RUN dotnet restore "Platform.csproj"
 COPY . .
+RUN dotnet restore "Platform.csproj"
 WORKDIR "/src/Platform"
 RUN dotnet build "Platform.csproj" -c Release -o /app/build
 
