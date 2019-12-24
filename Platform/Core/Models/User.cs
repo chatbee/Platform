@@ -19,10 +19,12 @@ namespace Platform.Core.Models
         [Required]
         public string LastName { get; set; }
         [Required]
-        [Key]
         public string Email { get; set; }
         [Required]
-        public SecureString Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        [Required]
+        public byte[] PasswordSalt { get; set; }
+        public string Token { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime DeactivatedAt { get; set; }

@@ -5,7 +5,10 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform", "Platform\Platform.csproj", "{3948AB21-AA2B-4ABF-BE05-F84C0D06C3EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformUnitTests", "PlatformUnitTests\PlatformUnitTests.csproj", "{97ADB6DB-DC62-4399-A14C-EF7C3002683A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformUnitTests", "PlatformUnitTests\PlatformUnitTests.csproj", "{97ADB6DB-DC62-4399-A14C-EF7C3002683A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3948AB21-AA2B-4ABF-BE05-F84C0D06C3EE} = {3948AB21-AA2B-4ABF-BE05-F84C0D06C3EE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
