@@ -1,4 +1,6 @@
 # Docker
+
+
 # Build a Docker image 
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
@@ -20,6 +22,15 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '**/PlatformUnitTests.csproj'
+        testRunTitle: 'Platform Unit tests'
     - task: Docker@2
       displayName: Build an image
       inputs:
