@@ -18,6 +18,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Platform.Core.Services;
 using Microsoft.IdentityModel.Tokens;
+using Platform.Core.Components.Logging;
 
 namespace Platform
 {
@@ -82,6 +83,8 @@ namespace Platform
 
             //di
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAppLogger, AppLogger>();
+
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

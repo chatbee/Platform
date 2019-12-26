@@ -16,6 +16,7 @@ namespace Platform.Core.Services
         User Create(User user, string password);
         void Update(User userParam, string password = null);
         void Delete(Guid id);
+        bool UserExists(Guid id);
     }
 
 
@@ -128,6 +129,10 @@ namespace Platform.Core.Services
             _context.SaveChanges();
         }
 
+        public bool UserExists(Guid id)
+        {
+            return _context.Users.Any(e => e.Id == id);
+        }
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

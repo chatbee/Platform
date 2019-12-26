@@ -33,7 +33,6 @@ namespace Platform.Core.Components
         {
             Env = env;
             NodeServices = nodeServices;
-            Logger = new Logger().CreateLogger();
         }
 
     }
