@@ -10,9 +10,7 @@ namespace Platform.Core.Models
     {
         [Key]
         public Guid Id { get; set; }
-        [Key]
         public Guid ConversationId { get; set; } 
-        [Key]
         public Guid BotId { get; set; }
         public string Message { get; set; }
         public DateTime MessageAt { get; set; }
