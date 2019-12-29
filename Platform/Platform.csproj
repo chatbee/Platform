@@ -1,10 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>6d3e8ce6-d445-47bd-98c2-c71446313909</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <TypeScriptToolsVersion>3.5.3</TypeScriptToolsVersion>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="ClientApp\src\app\utils\**" />
+    <Content Remove="ClientApp\src\app\utils\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\utils\**" />
+    <None Remove="ClientApp\src\app\utils\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="ClientApp\src\models\AuthenticationModel.ts" />
@@ -35,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\utils\" />
     <Folder Include="Core\Extensions\" />
     <Folder Include="Database\Migrations\" />
     <Folder Include="Hubs\" />
