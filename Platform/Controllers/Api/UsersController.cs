@@ -42,7 +42,7 @@ namespace Platform.Controllers.Api
         }
         // POST: api/Users/authenticate
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("authenticate")]
         public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationModel model)
         {
             if (model is null)
