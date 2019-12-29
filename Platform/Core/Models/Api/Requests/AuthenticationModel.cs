@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Platform.Core.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Platform.Core.Models.Api
 {
+    [TsAutoGenerateModel]
     public class AuthenticationModel
     {
         [Required]

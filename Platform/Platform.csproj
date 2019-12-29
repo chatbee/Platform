@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\models\AuthenticationModel.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
@@ -34,7 +38,6 @@
     <Folder Include="Core\Extensions\" />
     <Folder Include="Database\Migrations\" />
     <Folder Include="Hubs\" />
-    <Folder Include="ClientApp\" />
     <Folder Include="Data\" />
   </ItemGroup>
 

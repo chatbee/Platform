@@ -41,6 +41,7 @@ namespace Platform
 
             services.AddCors();
             services.AddControllers();
+            services.AddNodeServices();
 
             var appSettinngSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettinngSection);
@@ -136,6 +137,7 @@ namespace Platform
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                    
                 }
 
             });
