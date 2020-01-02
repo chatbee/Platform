@@ -8,7 +8,7 @@ EXPOSE 443
 
 #Install node and npm
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs && \
+    apt-get install --no-install-recommends -y nodejs && \
     node -v && npm -v #If install fails, this will cause an error and build will fail
 
 

@@ -19,8 +19,8 @@ namespace PlatformUnitTests.Controllers.Api
 {
     public class UsersControllerTests: IDisposable
     {
-        private Mock<IUserService> _mockUserService;
-        private Mock<IAppLogger> _mockAppLogger;
+        private readonly Mock<IUserService> _mockUserService;
+        private readonly Mock<IAppLogger> _mockAppLogger;
         private Mock<IOptions<AppSettings>> _mockOptions;
         public UsersControllerTests()
         {
@@ -46,7 +46,7 @@ namespace PlatformUnitTests.Controllers.Api
         public async Task GetAllListsAllUsers()
         {
 
-            var userList = new List<User>() { DataCreationHelpers.MakeUser(), DataCreationHelpers.MakeUser(), DataCreationHelpers.MakeUser() };
+            var userList = new List<User> { DataCreationHelpers.MakeUser(), DataCreationHelpers.MakeUser(), DataCreationHelpers.MakeUser() };
 
 
             _mockUserService.Setup(f => f.GetAll()).Returns(userList);

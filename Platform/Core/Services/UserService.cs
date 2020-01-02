@@ -22,7 +22,7 @@ namespace Platform.Core.Services
 
     public class UserService : IUserService
     {
-        private PlatformDbContext _context;
+        private readonly PlatformDbContext _context;
 
         public UserService(PlatformDbContext context)
         {
@@ -103,17 +103,23 @@ namespace Platform.Core.Services
             {
                 // throw error if the new Email is already taken
                 if (_context.Users.Any(x => x.Email == userParam.Email))
+                {
                     throw new PlatformException("Email " + userParam.Email + " is already taken");
+                }
 
                 user.Email = userParam.Email;
             }
 
             // update user properties if provided
             if (!string.IsNullOrWhiteSpace(userParam.FirstName))
+            {
                 user.FirstName = userParam.FirstName;
+            }
 
             if (!string.IsNullOrWhiteSpace(userParam.LastName))
+            {
                 user.LastName = userParam.LastName;
+            }
 
             // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
@@ -145,7 +151,10 @@ namespace Platform.Core.Services
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
-                    if (computedHash[i] != storedHash[i]) return false;
+                    if (computedHash[i] != storedHash[i])
+                    {
+                        return false;
+                    }
                 }
             }
 
