@@ -8,19 +8,19 @@ namespace Platform.Core.Components.Logging
 {
     public interface IAppLogger
     {
-        void e(Exception e);
+        void e(Exception ex);
     }
     public class AppLogger : IAppLogger
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
         public AppLogger()
         {
             _logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.RollingFile("").CreateLogger();
         }
 
-        public void e(Exception e)
+        public void e(Exception ex)
         {
-            _logger.Error(e, "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}");
+            _logger.Error(ex, "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}");
         }
     }
 }

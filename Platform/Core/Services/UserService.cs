@@ -22,7 +22,7 @@ namespace Platform.Core.Services
 
     public class UserService : IUserService
     {
-        private PlatformDbContext _context;
+        private readonly PlatformDbContext _context;
 
         public UserService(PlatformDbContext context)
         {
@@ -103,17 +103,23 @@ namespace Platform.Core.Services
             {
                 // throw error if the new Email is already taken
                 if (_context.Users.Any(x => x.Email == userParam.Email))
+                {
                     throw new PlatformException("Email " + userParam.Email + " is already taken");
+                }
 
                 user.Email = userParam.Email;
             }
 
             // update user properties if provided
             if (!string.IsNullOrWhiteSpace(userParam.FirstName))
+            {
                 user.FirstName = userParam.FirstName;
+            }
 
             if (!string.IsNullOrWhiteSpace(userParam.LastName))
+            {
                 user.LastName = userParam.LastName;
+            }
 
             // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
@@ -135,17 +141,34 @@ namespace Platform.Core.Services
         }
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
+            }
+            if (storedHash.Length != 64)
+            {
+                throw new ArgumentException("Invalid length of password hash (64 bytes expected).", nameof(storedHash));
+
+            }
+            if (storedSalt.Length != 128)
+            {
+                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", nameof(storedSalt));
+
+            }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
-                    if (computedHash[i] != storedHash[i]) return false;
+                    if (computedHash[i] != storedHash[i])
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -154,8 +177,14 @@ namespace Platform.Core.Services
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
+            }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {

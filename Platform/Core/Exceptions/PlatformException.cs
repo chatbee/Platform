@@ -14,5 +14,9 @@ namespace Platform.Core.Exceptions
         public PlatformException() : base(){}
         public PlatformException(string message) : base(message) { }
         public PlatformException(string message, params object[] args) : base(String.Format(CultureInfo.CurrentCulture, message, args)) { }
+
+        public PlatformException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }
