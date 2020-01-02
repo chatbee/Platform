@@ -8,14 +8,19 @@
 
   <PropertyGroup>
     <TypeScriptToolsVersion>3.5.3</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\utils\**" />
+    <Compile Remove="Database\Migrations\**" />
     <Content Remove="ClientApp\src\app\utils\**" />
+    <Content Remove="Database\Migrations\**" />
     <EmbeddedResource Remove="ClientApp\src\app\utils\**" />
+    <EmbeddedResource Remove="Database\Migrations\**" />
     <None Remove="ClientApp\src\app\utils\**" />
+    <None Remove="Database\Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +53,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Extensions\" />
-    <Folder Include="Database\Migrations\" />
     <Folder Include="Hubs\" />
     <Folder Include="Data\" />
   </ItemGroup>
