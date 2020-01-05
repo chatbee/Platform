@@ -139,7 +139,10 @@ namespace Platform
                     spa.UseAngularCliServer(npmScript: "start");
                     
                 }
-
+                else
+                {
+                    throw new NotImplementedException("No prod bundling has been set up");
+                }
             });
         }
     }

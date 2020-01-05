@@ -53,7 +53,7 @@ namespace Platform.Controllers.Api
             var user = _userService.Authenticate(model.Username, model.Password);
             if (user == null)
             {
-                return BadRequest(new ErrorResponse("Username or password is incorrect"));
+                return Unauthorized(new ErrorResponse("Username or password is incorrect"));
             }
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JwtSecret);

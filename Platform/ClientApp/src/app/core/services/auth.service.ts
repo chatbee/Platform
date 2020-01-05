@@ -1,16 +1,18 @@
 import { Injectable, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http/http';
-import { map, share } from 'rxjs/Operators';
+import { HttpClient } from '@angular/common/http';
+import { map, share, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthenticationModel } from '../../models/authenticationModel';
+import { AuthenticationResponse } from '../../models/authenticationResponse';
+import { of } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private jwtHelper = new JwtHelperService();
-  private apiUrl = `${this.baseUrl}/api/users`;
+  private apiUrl = `${this.baseUrl}api/users`;
   constructor(
-    private router: Router,
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string
   ) {}
@@ -24,6 +26,11 @@ export class AuthService {
             localStorage.setItem('userInfo', JSON.stringify(response));
           }
           return response;
+        }),
+        catchError((e, c) => {
+          if (e.status === 401) {
+            return of(e.error.message);
+          }
         }),
         share()
       );
