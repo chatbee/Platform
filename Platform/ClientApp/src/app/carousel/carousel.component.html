@@ -1,0 +1,31 @@
+<div class="mat-elevation-z8">
+  <perfect-scrollbar
+    style="max-height: 250px;padding-bottom: 15px;padding-top:15px"
+    [scrollIndicators]="true"
+    [config]="scrollConfig"
+  >
+    <div
+      fxLayoutAlign="start"
+      fxLayoutGap="2.5%"
+      fxLayout="row"
+      style="padding-left: 15px;margin-right: 15px;"
+    >
+      <mat-card *ngFor="let item of items" fxFlex="20%" fxFlex="noshrink">
+        <mat-card-header>
+          <img
+            mat-card-avatar
+            src="{{ item.imageLink }}"
+            style="background-size: cover;"
+          />
+          <mat-card-title>{{ item.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ item.content }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button [routerLink]="[item.routerLink]">View</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </perfect-scrollbar>
+</div>

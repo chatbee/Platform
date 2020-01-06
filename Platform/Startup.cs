@@ -85,7 +85,7 @@ namespace Platform
             //di
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAppLogger, AppLogger>();
-
+            services.AddSingleton(appSettings);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -100,7 +100,14 @@ namespace Platform
             //run any pending migrations
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                scope.ServiceProvider.GetService<PlatformDbContext>().Database.Migrate();
+                var context = scope.ServiceProvider.GetService<PlatformDbContext>();
+                context.Database.Migrate();
+
+                var settings = scope.ServiceProvider.GetService<AppSettings>();
+                if (settings.UseSeededData)
+                {
+                   new PlatformDataSeeder(context, env).SeedAll();
+                }
             }
 
             if (env.IsDevelopment())

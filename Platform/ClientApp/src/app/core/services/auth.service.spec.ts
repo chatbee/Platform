@@ -18,7 +18,7 @@ describe('AuthService', () => {
         {
           provide: 'BASE_URL',
           useFactory: () => {
-            return 'https://test.com';
+            return 'https://test.com/';
           },
           deps: []
         },
