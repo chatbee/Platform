@@ -32,7 +32,7 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'test-ci'
+          customCommand: 'run test-ci'
           workingDir: '$(Build.SourcesDirectory)/Platform/ClientApp'
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish nodejs code coverage results'
