@@ -18,18 +18,13 @@ stages:
 - stage: test
   displayName: Test
   jobs:
-  - job: Install
-    steps:
-    - task: UseNode@1
-      inputs:
-        version: '12.x'
-        checkLatest: true
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '3.1.x'
   - job: testNode
+    displayName: Test Angular
     steps:
+      - task: UseNode@1
+        inputs:
+          version: '12.x'
+          checkLatest: true
       - task: Npm@1
         inputs:
           command: 'install'
@@ -48,13 +43,17 @@ stages:
           reportDirectory: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage'
           failIfCoverageEmpty: true
   - job: testDotnetCore 
-    displayName: test Dotnet Core
+    displayName: Test dotnet core
     steps:
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: 'test'
-              projects: '**/PlatformUnitTests.csproj'
-              testRunTitle: 'Platform Unit tests'
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          projects: '**/PlatformUnitTests.csproj'
+          testRunTitle: 'Platform Unit tests'
 
 - stage: Build
   displayName: Build image
