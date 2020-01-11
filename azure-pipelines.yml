@@ -32,7 +32,7 @@ stages:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run test-ci'
+          customCommand: 'run test-headless'
           workingDir: '$(Build.SourcesDirectory)/Platform/ClientApp'
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish nodejs code coverage results'
@@ -63,8 +63,6 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-
-
     - task: Docker@2
       displayName: Build an image
       inputs:
