@@ -35,7 +35,7 @@ stages:
           customCommand: 'test-ci'
           workingDir: '$(Build.SourcesDirectory)/Platform/ClientApp'
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish nodejs code coverage reesults'
+        displayName: 'Publish nodejs code coverage results'
         condition: succeededOrFailed()
         inputs:
           codeCoverageTool: Cobertura
