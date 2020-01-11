@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  platform:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+      - "49153"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./Platform/ClientApp :/app/ClientApp
+  db:
+    image: 'mcr.microsoft.com/mssql/server'
+    environment:
+      SA_PASSWORD: 'superSecurePasswordNoOneWillGuess123'
+      ACCEPT_EULA: 'Y'
+    ports:
+        - "1433:1433"

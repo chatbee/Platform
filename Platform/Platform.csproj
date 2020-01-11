@@ -1,10 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>6d3e8ce6-d445-47bd-98c2-c71446313909</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <TypeScriptToolsVersion>3.5.3</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="ClientApp\src\app\utils\**" />
+    <Compile Remove="Database\Migrations\**" />
+    <Content Remove="ClientApp\src\app\utils\**" />
+    <Content Remove="Database\Migrations\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\utils\**" />
+    <EmbeddedResource Remove="Database\Migrations\**" />
+    <None Remove="ClientApp\src\app\utils\**" />
+    <None Remove="Database\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\models\AuthenticationModel.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
@@ -32,9 +53,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Extensions\" />
-    <Folder Include="Database\Migrations\" />
     <Folder Include="Hubs\" />
-    <Folder Include="ClientApp\" />
     <Folder Include="Data\" />
   </ItemGroup>
 

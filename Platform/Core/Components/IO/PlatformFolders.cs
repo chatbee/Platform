@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,12 @@ namespace Platform.Core.Components.IO
     /// </summary> 
     public class PlatformFolders
     {
+        private readonly IWebHostEnvironment _env;
+        public PlatformFolders(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
+
         /// <summary> 
         /// Returns a folder path to a specific ChatPlatform folder that is used by the ChatPlatform service 
         /// </summary> 
@@ -25,7 +32,7 @@ namespace Platform.Core.Components.IO
         {
 
             //get base path 
-            string basePath = System.IO.Path.Combine(PlatformComponents.Env.ContentRootPath);
+            string basePath = System.IO.Path.Combine(_env.ContentRootPath);
 
             //create var to store folder path 
             string folderPath = "";
@@ -41,7 +48,7 @@ namespace Platform.Core.Components.IO
                     folderPath = System.IO.Path.Combine(basePath, "Configs");
                     break;
                 case FolderName.ProfilePictures:
-                    if (PlatformComponents.Env.EnvironmentName == "Development")
+                    if (_env.EnvironmentName == "Development")
                     {
                         folderPath = System.IO.Path.Combine(basePath, "ClientApp", "src", "assets", "user", "photos");
                     }
@@ -68,6 +75,9 @@ namespace Platform.Core.Components.IO
                     break;
                 case FolderName.ScriptExecution:
                     folderPath = System.IO.Path.Combine(basePath, "Data", "ScriptExecution");
+                    break;
+                case FolderName.DataSeed:
+                    folderPath = System.IO.Path.Combine(basePath, "Database", "SeededData");
                     break;
                 default:
                     //occurs when enum is added and used without a switch definition 
@@ -117,7 +127,8 @@ namespace Platform.Core.Components.IO
             TrainingRequests,
             BasePath,
             uploadedBots,
-            ScriptExecution
+            ScriptExecution,
+            DataSeed,
         }
 
         /// <summary> 

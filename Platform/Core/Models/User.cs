@@ -25,9 +25,9 @@ namespace Platform.Core.Models
         [Required]
         public byte[] PasswordSalt { get; set; }
         public string Token { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public DateTime DeactivatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? DeactivatedAt { get; set; } = null;
 
     }
 }

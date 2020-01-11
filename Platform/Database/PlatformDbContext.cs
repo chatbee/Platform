@@ -19,13 +19,36 @@ namespace Platform.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasIndex(u => u.Id).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.Email);
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.DeactivatedAt);
 
             modelBuilder.Entity<ConversationLog>().HasIndex(u => u.Id).IsUnique();
             modelBuilder.Entity<ConversationLog>().HasIndex(u => u.ConversationId);
             modelBuilder.Entity<ConversationLog>().HasIndex(u => u.BotId);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+
+            var changes = ChangeTracker
+                .Entries()
+                .Where(e =>
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified);
+
+            foreach (var item in changes)
+            {
+                item.Property("CreatedAt").CurrentValue = DateTime.Now;
+
+                if (item.State == EntityState.Added)
+                {
+                    item.Property("UpdatedAt").CurrentValue = DateTime.Now;
+                }
+            }
+
+            return base.SaveChanges();
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Platform.Core
     public class AppSettings
     {
         public string JwtSecret { get; set; }
+        public bool UseSeededData { get; set; }
     }
 }
