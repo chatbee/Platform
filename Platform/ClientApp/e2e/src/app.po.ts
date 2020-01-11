@@ -6,6 +6,17 @@ export class AppPage {
   }
 
   getTitleText() {
-    return element(by.css('app-root .content span')).getText() as Promise<string>;
+    return element(
+      by.xpath(
+        '/html/body/app-root/mat-sidenav-container/mat-sidenav-content/mat-toolbar/span'
+      )
+    ).getText() as Promise<string>;
+  }
+  getLoginTitleText() {
+    return element(
+      by.xpath(
+        '/html/body/app-root/mat-sidenav-container/mat-sidenav-content/div/app-login/div/mat-card/mat-card-header/div/mat-card-title'
+      )
+    ).getText();
   }
 }
