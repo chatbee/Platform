@@ -42,6 +42,13 @@ stages:
           summaryFileLocation: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage/cobertura-coverage.xml'
           reportDirectory: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage'
           failIfCoverageEmpty: true
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**coverage/**/RESULTS.xml'
+          mergeTestResults: true
+          failTaskOnFailedTests: true
+          testRunTitle: 'Angular'
   - job: testDotnetCore 
     displayName: Test dotnet core
     steps:
