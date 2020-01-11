@@ -1,3 +1,5 @@
+import { RouterTestingModule } from '@angular/router/testing';
+import { CarouselModule } from './../../carousel/carousel.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -24,6 +26,8 @@ describe('DashboardComponent', () => {
         MatGridListModule,
         MatIconModule,
         MatMenuModule,
+        CarouselModule,
+        RouterTestingModule
       ]
     }).compileComponents();
   }));

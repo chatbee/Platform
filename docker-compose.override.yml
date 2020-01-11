@@ -19,4 +19,4 @@ services:
       SA_PASSWORD: 'superSecurePasswordNoOneWillGuess123'
       ACCEPT_EULA: 'Y'
     ports:
-        - "1433"
+        - "1433:1433"

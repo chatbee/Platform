@@ -36,7 +36,7 @@ namespace Platform.Migrations
                     Token = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    DeactivatedAt = table.Column<DateTime>(nullable: false)
+                    DeactivatedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
