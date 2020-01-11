@@ -75,8 +75,8 @@ namespace PlatformUnitTests.Controllers.Api
             var controller = new UsersController(_mockUserService.Object, _mockOptions.Object, _mockAppLogger.Object);
 
             var result = await controller.Authenticate(new Platform.Core.Models.Api.AuthenticationModel());
-            var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
-            var errorResponse = Assert.IsType<ErrorResponse>(badRequest.Value);
+            var unAuth = Assert.IsType<UnauthorizedObjectResult>(result.Result);
+            var errorResponse = Assert.IsType<ErrorResponse>(unAuth.Value);
             Assert.NotNull(errorResponse);
             Assert.Equal("Username or password is incorrect", errorResponse.Message);
         }
