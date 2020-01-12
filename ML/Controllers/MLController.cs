@@ -21,20 +21,28 @@ namespace Chatbee.ML.Controllers
 
         public ActionResult Train(TrainingRequest request)
         {
+            //api/ml/train 
             var trainingResponse = _mlService.Train(request);
             return Ok(trainingResponse);
         }
 
-        public ActionResult Score()
+        [HttpPost]
+        [Route("Score")]
+        [Route("Predict")]
+        public ActionResult Score(ScoringRequest request)
         {
-            var resp = new TrainingResponse();
-            return Ok(resp);
+            //request.ModelName
+            //request.Utterance
+            //api/ml/score && //api/ml/predict
+            var scoringResponse = _mlService.Predict(request);
+            return Ok(scoringResponse);
         }
 
         [HttpGet]
         [Route("Status")]
         public MLStatusResponse Status()
         {
+            //api/ml/status
             return _mlService.Status();
         }
 
@@ -78,6 +86,7 @@ namespace Chatbee.ML.Controllers
 
         }
             
+
 
 
 

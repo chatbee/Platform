@@ -8,8 +8,8 @@ namespace Chatbee.ML
 {
     public interface IMLService
     {
-        TrainingResponse Train(TrainingRequest message);
-        ScoringResponse Predict(ScoringRequest message);
+        TrainingResponse Train(TrainingRequest request);
+        ScoringResponse Predict(ScoringRequest request);
         MLStatusResponse Status();
     }
 }
