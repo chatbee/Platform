@@ -1,14 +1,46 @@
-using System;
-using Xunit;
-using Chatbee.ML;
-using Chatbee.ML.Models;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Chatbee.ML.Models;
 
-namespace Chatbee.ML.Tests
+namespace Chatbee.ML.Controllers
 {
-    public class Service
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MLController : ControllerBase
     {
-        private TrainingRequest CreateSampleTrainingRequest()
+        private readonly IMLService _mlService;
+
+        public MLController(IMLService mlService)
+        {
+            _mlService = mlService;
+        }
+
+        public ActionResult Train(TrainingRequest request)
+        {
+            var trainingResponse = _mlService.Train(request);
+            return Ok(trainingResponse);
+        }
+
+        public ActionResult Score()
+        {
+            var resp = new TrainingResponse();
+            return Ok(resp);
+        }
+
+        [HttpGet]
+        [Route("Status")]
+        public MLStatusResponse Status()
+        {
+            return _mlService.Status();
+        }
+
+        [HttpGet]
+        [Route("TrainSample")]
+        public TrainingResponse TrainSample()
         {
             //create training request
             var req = new TrainingRequest();
@@ -35,65 +67,19 @@ namespace Chatbee.ML.Tests
             MLInputs.Add(new Input() { Utterance = "nope", Label = "#decline" });
             req.Dataset = MLInputs;
 
-            return req;
-        }
-
-        [Fact]
-        public void TrainAndPredict()
-        {
-
-            //create sample training request from data
-            var req = CreateSampleTrainingRequest();
-
             //update properties for request
             req.LoadAfterTraining = true;
             req.ReturnFileData = true;
 
             //pass in request for training
-            var mlService = new MLService();
-            var response = mlService.Train(req);
+            var response = _mlService.Train(req);
+            return response;
+
+
+        }
             
-            //response should not be null
-            Assert.NotNull(response);
 
-            //model was loaded after training
-            Assert.NotEmpty(mlService.LoadedModels);
 
-            //file data was not returned
-            Assert.NotNull(response.ModelData);
 
-            //predict statements for testing
-            var scoringRequest = new ScoringRequest();
-            scoringRequest.ModelName = response.ModelName;
-            scoringRequest.Utterance = "hi";
-
-            var scoringResponse = mlService.Predict(scoringRequest);
-
-            Assert.Equal("#greet", scoringResponse.Result.Prediction);
-
-            scoringRequest.Utterance = "bye";
-            scoringResponse = mlService.Predict(scoringRequest);
-
-            Assert.Equal("#farewell", scoringResponse.Result.Prediction);
-
-        }
-
-        [Fact]
-        public void LoadAfterTraining()
-        {
-            var mlService = new MLService();
-
-            //create sample training request from data
-            var req = CreateSampleTrainingRequest();
-
-            //update properties for request
-            req.LoadAfterTraining = true;
-
-            //pass in request for training
-            var response = mlService.Train(req);
-
-            //test loaded model
-            Assert.NotEmpty(mlService.LoadedModels);
-        }
     }
 }

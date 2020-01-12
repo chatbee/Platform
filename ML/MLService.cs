@@ -9,11 +9,11 @@ using System.IO;
 
 namespace Chatbee.ML
 {
-    public static class Service
+    public class MLService : IMLService
     {
-        public static DateTime ServiceLoaded { get; set; }
-        public static Dictionary<string, ChatbeeModel> LoadedModels { get; set; } = new Dictionary<string, ChatbeeModel>();
-        public static void Initialize()
+        public DateTime ServiceLoaded { get; set; }
+        public Dictionary<string, ChatbeeModel> LoadedModels { get; set; } = new Dictionary<string, ChatbeeModel>();
+        public MLService()
         {
             ServiceLoaded = DateTime.Now;
         }
@@ -22,7 +22,7 @@ namespace Chatbee.ML
         /// Trains a new machine learning model and returns the file name
         /// </summary>
         /// <returns></returns>
-        public static TrainingResponse Train(TrainingRequest request)
+        public TrainingResponse Train(TrainingRequest request)
         {
             //Todo: Load dataset here optionally?
 
@@ -83,7 +83,7 @@ namespace Chatbee.ML
             return response;
         }
 
-        public static ScoringResponse Predict(ScoringRequest request)
+        public ScoringResponse Predict(ScoringRequest request)
         {
             var response = new ScoringResponse();
             //Todo: Enable Exact Match attempt?
@@ -148,15 +148,25 @@ namespace Chatbee.ML
             return response;
         }
 
-        public static void LoadModels()
+        public MLStatusResponse Status()
+        {
+            var response = new MLStatusResponse();
+            response.LoadedModels = string.Join(", ", LoadedModels.Keys);
+            response.TotalModelsLoaded = LoadedModels.Count;
+            response.ServiceLoaded = ServiceLoaded;
+            return response;
+        }
+           
+
+        public void LoadModels()
         {
             throw new NotImplementedException();
         }
-        public static void UnloadModels()
+        public void UnloadModels()
         {
             throw new NotImplementedException();
         }
-        public static void ReloadModels()
+        public void ReloadModels()
         {
             throw new NotImplementedException();
         }
