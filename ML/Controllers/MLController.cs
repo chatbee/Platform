@@ -18,7 +18,8 @@ namespace Chatbee.ML.Controllers
         {
             _mlService = mlService;
         }
-
+        [HttpPost]
+        [Route("Train")]
         public ActionResult Train(TrainingRequest request)
         {
             //api/ml/train 
@@ -50,6 +51,7 @@ namespace Chatbee.ML.Controllers
         [Route("TrainSample")]
         public TrainingResponse TrainSample()
         {
+            //api/ml/trainsample
             //create training request
             var req = new TrainingRequest();
 
