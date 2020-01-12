@@ -45,7 +45,7 @@ stages:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: '**coverage/**/RESULTS.xml'
+          testResultsFiles: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage/**/RESULTS.xml'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Angular'
