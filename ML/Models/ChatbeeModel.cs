@@ -31,7 +31,9 @@ namespace Chatbee.ML.Models
             ModelFileData = base64String;
 
             //create chatbees model file
-            var chatbeeModelPath = path + Guid.NewGuid().ToString() + ".mdl";
+            var modelName = Guid.NewGuid().ToString() + ".cbmdl";
+
+            var chatbeeModelPath = path + modelName;
 
             //serialize class
             var serializedData = Newtonsoft.Json.JsonConvert.SerializeObject(this);
@@ -43,7 +45,7 @@ namespace Chatbee.ML.Models
             File.Delete(tempModelPath);
 
             //return file name
-            return chatbeeModelPath;
+            return modelName;
         }
 
         public ChatbeeModel LoadModelFromFile(MLContext mlContext, string modelFileName)

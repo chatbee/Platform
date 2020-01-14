@@ -61,9 +61,9 @@ namespace Chatbee.ML
             var chatBeeModel = new ChatbeeModel();
             chatBeeModel.Model = mlModel;
             chatBeeModel.DataSet = request.Dataset;
-            var modelFileName = chatBeeModel.SaveModelToFile(mlContext, trainData.Schema, "Data\\Models");
 
-            
+            //save model and return file name
+            var modelFileName = chatBeeModel.SaveModelToFile(mlContext, trainData.Schema, "Data\\Models\\");
 
             //set filename for response
             response.ModelName = modelFileName;
