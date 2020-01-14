@@ -39,7 +39,7 @@ namespace Chatbee.ML.Tests
         }
 
         [Fact]
-        public void TrainAndPredict()
+        public void TrainAndPredictLoadedModel()
         {
 
             //create sample training request from data
@@ -63,6 +63,8 @@ namespace Chatbee.ML.Tests
             Assert.NotNull(response.ModelData);
 
             //predict statements for testing
+
+            //test exact matches
             var scoringRequest = new ScoringRequest();
             scoringRequest.ModelName = response.ModelName;
             scoringRequest.Utterance = "hi";
@@ -70,11 +72,21 @@ namespace Chatbee.ML.Tests
             var scoringResponse = mlService.Predict(scoringRequest);
 
             Assert.Equal("#greet", scoringResponse.Result.Prediction);
+            Assert.True(scoringResponse.Result.ExactMatch);
 
             scoringRequest.Utterance = "bye";
             scoringResponse = mlService.Predict(scoringRequest);
 
             Assert.Equal("#farewell", scoringResponse.Result.Prediction);
+            Assert.True(scoringResponse.Result.ExactMatch);
+
+            //test machine learning matches
+
+            scoringRequest.Utterance = "hallo";
+            scoringResponse = mlService.Predict(scoringRequest);
+
+            Assert.Equal("#greet", scoringResponse.Result.Prediction);
+            Assert.False(scoringResponse.Result.ExactMatch);
 
         }
 

@@ -38,7 +38,7 @@ namespace Chatbee.ML
             response.Started = DateTime.Now;
 
             //log dataset as metadata
-            var jsonDataset = Newtonsoft.Json.JsonConvert.SerializeObject(request.Dataset);
+            //var jsonDataset = Newtonsoft.Json.JsonConvert.SerializeObject(request.Dataset);
 
             //create ml context for training
             var mlContext = new MLContext(seed: 0);
@@ -57,26 +57,33 @@ namespace Chatbee.ML
 
             response.Finished = DateTime.Now;
 
-            //save model
-            var modelFileName = SaveModelFile(mlContext, mlModel, trainData.Schema);
+            //create chatbee model
+            var chatBeeModel = new ChatbeeModel();
+            chatBeeModel.Model = mlModel;
+            chatBeeModel.DataSet = request.Dataset;
+            var modelFileName = chatBeeModel.SaveModelToFile(mlContext, trainData.Schema, "Data\\Models");
+
+            
+
+            //set filename for response
             response.ModelName = modelFileName;
 
+            //load if indicated
             if (request.LoadAfterTraining)
             {
                 if (LoadedModels.ContainsKey(modelFileName))
                     LoadedModels.Remove(modelFileName);
 
-                LoadedModels.Add(modelFileName, new ChatbeeModel(mlModel, jsonDataset));
+                LoadedModels.Add(modelFileName, chatBeeModel);
             }
 
             //return file data if requested
             if (request.ReturnFileData)
             {
-                var modelZip = File.ReadAllBytes(modelFileName);
-                var base64String = Convert.ToBase64String(modelZip);
-                response.ModelData = base64String;
+                response.ModelData = chatBeeModel.ModelFileData;
             }
 
+            //set result
             response.Result = "Training Completed Successfully";
 
             //return model file name
@@ -88,48 +95,40 @@ namespace Chatbee.ML
             var response = new ScoringResponse();
             //Todo: Enable Exact Match attempt?
 
-            ////attempt to find any exact matches before going to ml
-            //foreach (var faqConversation in config.FAQs)
-            //{
-            //    foreach (var configuredUtterance in faqConversation.StartNode.Utterances)
-            //    {
-            //        if (configuredUtterance.Statement.ToLower() == utterance.ToLower())
-            //        {
-            //            return new AIOutput() { Prediction = faqConversation.ID.ToString(), ExactMatch = true, Score = new float[] { 1 } };
-            //        }
 
-            //    }
-
-            //}
 
             var modelFileName = request.ModelName;
             var utterance = request.Utterance;
 
             MLContext mlContext = new MLContext();
             ChatbeeModel chatbeeModel;
+
             //load model if not loaded
             if (!LoadedModels.ContainsKey(modelFileName))
             {
-
-                if (!System.IO.File.Exists(modelFileName))
-                {
-                    //model was not found!
-                    throw new Exception($"Model not found at '{modelFileName}'");
-                }
-                else
-                {
-                    //add to loaded models for faster future responses
-                    var model = mlContext.Model.Load(modelFileName, out DataViewSchema inputSchema);
-                    chatbeeModel = new ChatbeeModel(model);
-                    LoadedModels.Add(modelFileName, chatbeeModel);
-                }
-
+                chatbeeModel = new ChatbeeModel().LoadModelFromFile(mlContext, modelFileName);
+                LoadedModels.Add(modelFileName, chatbeeModel); 
             }
-            else
+
+            ChatbeeModel loadedModel = LoadedModels[modelFileName];
+            chatbeeModel = loadedModel;
+
+
+            //attempt to find any exact matches before going to ml
+            foreach (var item in chatbeeModel.DataSet)
             {
-                ChatbeeModel loadedModel = LoadedModels[modelFileName];
-                chatbeeModel = loadedModel;
+                if (item.Utterance == request.Utterance)
+                {
+                    //return for exact match
+                    Output exactMatchOutput = new Output();
+                    exactMatchOutput.ExactMatch = true;
+                    exactMatchOutput.Prediction = item.Label;
+                    response.Result = exactMatchOutput;
+                    return response;
+                }
+              
             }
+
 
             var prediction = mlContext.Model.CreatePredictionEngine<Input, Output>(chatbeeModel.Model);
             var input = new Input() { Utterance = utterance };
@@ -138,8 +137,18 @@ namespace Chatbee.ML
             result.ExactMatch = false;
 
             //loop
-            if (!string.IsNullOrEmpty(chatbeeModel.Metadata))
+            if (chatbeeModel.DataSet != null && chatbeeModel.DataSet.Count > 0)
             {
+                for (int scr = 0; scr < result.Score.Length; scr++)
+                {
+                    var detailedScore = new ScoreDetail();
+                    var datasetItem = chatbeeModel.DataSet[scr];
+                    detailedScore.Label = datasetItem.Label;
+                    detailedScore.Utterance = datasetItem.Utterance;
+                    detailedScore.score = result.Score[scr];
+                    result.Details.Add(detailedScore);
+                }
+
                //todo: process score details
             }
 
@@ -194,22 +203,6 @@ namespace Chatbee.ML
             return pipeline.Fit(trainingDataView);
         }
 
-        public static string SaveModelFile(MLContext mlContext, ITransformer mlModel, DataViewSchema modelInputSchema)
-        {
-            //create guid for model name
-            if (!System.IO.Directory.Exists("Data\\Models"))
-            {
-                System.IO.Directory.CreateDirectory("Data\\Models");
-            }
-
-            var modelPath = $"Data\\Models\\{Guid.NewGuid()}.zip";
-
-            //save model
-            mlContext.Model.Save(mlModel, modelInputSchema, modelPath);
-
-            //return model path back
-            return modelPath;
-        }
         #endregion
     }
 }

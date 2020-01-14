@@ -12,6 +12,8 @@ namespace Chatbee.ML.Models
         [ColumnName("PredictedLabel")]
         public string Prediction { get; set; }
         public float[] Score { get; set; }
+        [NoColumn]
+        public List<ScoreDetail> Details { get; set; } = new List<ScoreDetail>();
 
     }
 }
