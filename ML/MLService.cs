@@ -77,10 +77,10 @@ namespace Chatbee.ML
                 LoadedModels.Add(modelFileName, chatBeeModel);
             }
 
-            //return file data if requested
-            if (request.ReturnFileData)
+            //return model data if requested
+            if (request.ReturnModelData)
             {
-                response.ModelData = chatBeeModel.ModelFileData;
+                response.ModelData = chatBeeModel;
             }
 
             //set result

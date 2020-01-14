@@ -79,7 +79,7 @@ namespace Chatbee.ML.Controllers
 
             //update properties for request
             req.LoadAfterTraining = true;
-            req.ReturnFileData = true;
+            req.ReturnModelData = true;
 
             //pass in request for training
             var response = _mlService.Train(req);

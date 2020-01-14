@@ -47,7 +47,7 @@ namespace Chatbee.ML.Tests
 
             //update properties for request
             req.LoadAfterTraining = true;
-            req.ReturnFileData = true;
+            req.ReturnModelData = true;
 
             //pass in request for training
             var mlService = new MLService();

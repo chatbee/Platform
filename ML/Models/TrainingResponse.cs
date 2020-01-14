@@ -12,6 +12,6 @@ namespace Chatbee.ML.Models
         public DateTime Finished { get; set; }
         public string Result { get; set; }
         public string ModelName { get; set; }
-        public string ModelData { get; set; }
+        public ChatbeeModel ModelData { get; set; }
     }
 }

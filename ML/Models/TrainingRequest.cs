@@ -9,7 +9,6 @@ namespace Chatbee.ML.Models
     {
         public List<Input> Dataset { get; set; } = new List<Input>();
         public bool LoadAfterTraining { get; set; } = false;
-        public bool ReturnFileData { get; set; } = false;
-        public string ModelLocation { get; set; }
+        public bool ReturnModelData { get; set; } = false;
     }
 }
