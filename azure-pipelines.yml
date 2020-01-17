@@ -74,6 +74,7 @@ stages:
         displayName: Create Code coverage report
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish code coverage'
+        condition: succeededOrFailed()
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(Build.SourcesDirectory)/codeCoverage/coverage.cobertura.xml'
