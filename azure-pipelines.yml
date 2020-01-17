@@ -62,9 +62,14 @@ stages:
           projects: '**/PlatformUnitTests.csproj'
           testRunTitle: 'Platform Unit tests'
           arguments: ' --collect:"XPlat Code Coverage"'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(Agent.TempDirectory)'
+          Contents: '**/coverage.cobertura.xml'
+          TargetFolder: '$(Build.SourcesDirectory)/codeCoverage'
       - script: |
           dotnet tool install -g dotnet-reportgenerator-globaltool
-          reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
+          reportgenerator -reports:$(Build.SourcesDirectory)/codeCoverage/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
         displayName: Create Code coverage report
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish code coverage'
