@@ -19,7 +19,7 @@ stages:
   displayName: Test
   jobs:
   - job: testNode
-    displayName: Test Angular
+    displayName: Angular
     steps:
       - task: UseNode@1
         inputs:
@@ -50,7 +50,7 @@ stages:
           failTaskOnFailedTests: true
           testRunTitle: 'Angular'
   - job: testDotnetCore 
-    displayName: Test dotnet core
+    displayName: dotnet core
     steps:
       - task: UseDotNet@2
         inputs:
@@ -73,12 +73,11 @@ stages:
           reportgenerator -reports:"$(Build.SourcesDirectory)/codeCoverage/coverage.cobertura.xml" -targetdir:"$(Build.SourcesDirectory)/CodeCoverage" -reporttypes:"HtmlInline_AzurePipelines"
         displayName: Create Code coverage report
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish code coverage'
-        condition: succeededOrFailed()
         inputs:
-          codeCoverageTool: Cobertura
-          summaryFileLocation: '$(Build.SourcesDirectory)/codeCoverage/coverage.cobertura.xml'
-          reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage/cobertura-coverage.xml'
+          reportDirectory: '$(Build.SourcesDirectory)/Platform/ClientApp/coverage'
+          failIfCoverageEmpty: true
 - stage: Build
   displayName: Build image
   jobs:  
