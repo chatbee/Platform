@@ -67,6 +67,7 @@ stages:
           SourceFolder: '$(Agent.TempDirectory)'
           Contents: '**/coverage.cobertura.xml'
           TargetFolder: '$(Build.SourcesDirectory)/codeCoverage'
+          flattenFolders: true
       - script: |
           dotnet tool install -g dotnet-reportgenerator-globaltool
           reportgenerator -reports:$(Build.SourcesDirectory)/codeCoverage/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
