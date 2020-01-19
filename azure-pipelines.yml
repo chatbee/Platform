@@ -90,7 +90,7 @@ stages:
       displayName: Build an image
       inputs:
         containerRegistry: 'docker-hub'
-        repository: 'chatbees.platform'
+        repository: 'atotalnoob/chatbees.platform'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
