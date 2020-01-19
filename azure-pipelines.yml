@@ -87,16 +87,13 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       displayName: Build an image
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Platform/Dockerfile'
+        containerRegistry: 'docker-hub'
+        repository: 'atotalnoob/chatbees.platform'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
-    - task: Docker@2
-      displayName: Push to docker hub
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-      inputs:
-        containerRegistry: 'docker-hub'
-        repository: 'chatbees.platform'
-        command: 'push'
+          chatbees.platform
