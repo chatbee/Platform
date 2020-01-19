@@ -95,7 +95,7 @@ stages:
           'chatbees.platform:$(tag)'
     - task: Docker@2
       displayName: Push to docker hub
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+     # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       inputs:
         containerRegistry: 'docker-hub'
         repository: 'chatbees.platform'
