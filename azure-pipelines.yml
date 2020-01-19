@@ -92,7 +92,8 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/Platform/Dockerfile'
         tags: |
-          'chatbees.platform:$(tag)'
+          '$(tag)'
+          'chatbees.platform'
     - task: Docker@2
       displayName: Push to docker hub
      # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
