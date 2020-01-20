@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, share, catchError } from 'rxjs/operators';
@@ -14,7 +15,8 @@ export class AuthService {
   private apiUrl = `${this.baseUrl}api/users`;
   constructor(
     private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string
+    @Inject('BASE_URL') private baseUrl: string,
+    private router: Router
   ) {}
   public login(credentials: AuthenticationModel) {
     return this.http
@@ -49,5 +51,8 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo');
+    this.router.navigate(['/']).catch(e => {
+      console.error(e);
+    });
   }
 }

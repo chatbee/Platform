@@ -44,6 +44,7 @@ describe('AuthService', () => {
 
     const fakeResponse = new AuthenticationResponse();
     fakeResponse.email = 'test@test.com';
+    fakeResponse.token = 'asdf';
     const fakeRequest = new AuthenticationModel('teestUser', 'password');
 
     const s = service.login(fakeRequest).subscribe(res => {
@@ -57,5 +58,11 @@ describe('AuthService', () => {
 
     req.flush(fakeResponse);
     s.unsubscribe();
+  });
+  it('logs out', async () => {
+    const service: AuthService = TestBed.get(AuthService);
+    expect(() => {
+      service.logout();
+    }).not.toThrow();
   });
 });

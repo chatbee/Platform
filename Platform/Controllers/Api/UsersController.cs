@@ -64,6 +64,7 @@ namespace Platform.Controllers.Api
                 {
                     new Claim(ClaimTypes.Name, user.FirstName),
                     new Claim(ClaimTypes.Email, user.Email),
+                    new Claim("id", user.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(18),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -95,11 +96,11 @@ namespace Platform.Controllers.Api
             return Ok(user);
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Users/5?password=
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(Guid id, User user, string password = null)
+        public async Task<IActionResult> PutUser([FromRoute] Guid id,[FromBody] User user, string password = null)
         {
             if (id != user.Id)
             {
