@@ -25,7 +25,7 @@
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a routerLink="/admin" class="title"> {{ title }} </a>
+      <a mat-button routerLink="/admin" class="title"> {{ title }} </a>
       <span class="spacer"></span>
       <button
         *ngIf="authService.isLoggedIn()"

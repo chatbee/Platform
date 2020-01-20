@@ -51,7 +51,7 @@ describe('AppComponent', () => {
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const el = fixture.debugElement.nativeElement.querySelector('span');
+    const el = fixture.debugElement.nativeElement.querySelector('a.title');
     expect(el.textContent).toContain('Chatbees Platform');
   });
 });
