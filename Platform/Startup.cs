@@ -39,9 +39,6 @@ namespace Platform
                 o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddCors();
-            services.AddControllers();
-            services.AddNodeServices();
 
             var appSettinngSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettinngSection);
@@ -61,7 +58,13 @@ namespace Platform
                     OnTokenValidated = context =>
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = Guid.Parse(context.Principal.Identity.Name);
+                        var claim = context.Principal.FindFirst("id");
+                        if (claim is null)
+                        {
+                            context.Fail("Unauthorized");
+                            return Task.CompletedTask;
+                        }
+                        var userId = Guid.Parse(claim.Value);
                         var user = userService.GetById(userId);
                         if (user == null)
                         {
@@ -82,6 +85,9 @@ namespace Platform
 
             });
 
+            services.AddCors();
+            services.AddControllers();
+            services.AddNodeServices();
             //di
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAppLogger, AppLogger>();
@@ -119,6 +125,9 @@ namespace Platform
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
+
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -127,8 +136,6 @@ namespace Platform
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthentication();
 
             app.UseAuthorization();
 

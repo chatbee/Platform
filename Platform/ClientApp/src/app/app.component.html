@@ -25,10 +25,24 @@
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>{{ title }}</span>
+      <a routerLink="/admin" class="title"> {{ title }} </a>
+      <span class="spacer"></span>
+      <button
+        *ngIf="authService.isLoggedIn()"
+        mat-icon-button
+        [matMenuTriggerFor]="userMenu"
+        type="button"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </button>
     </mat-toolbar>
     <div style="height:80vh">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<mat-menu #userMenu="matMenu">
+  <a routerLink="/admin/profile" mat-menu-item>Account</a>
+  <button mat-menu-item (click)="authService.logout()">Sign off</button>
+</mat-menu>
