@@ -45,7 +45,7 @@ namespace Chatbee.ML.Models
             File.Delete(tempModelPath);
 
             //return file name
-            return modelName;
+            return chatbeeModelPath;
         }
 
         public ChatbeeModel LoadModelFromFile(MLContext mlContext, string modelFileName)

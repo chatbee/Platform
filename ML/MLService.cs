@@ -188,7 +188,7 @@ namespace Chatbee.ML
                 }
                 catch (Exception ex)
                 {
-                    modelLoadList.Add($"Error Loading: {fil}, {ex.ToString()}");
+                    modelLoadList.Add($"Error Loading: {fil}, {ex.Message}");
                 }
 
             }
@@ -211,7 +211,7 @@ namespace Chatbee.ML
                 }
                 catch (Exception ex)
                 {
-                    modelDisposeList.Add($"Error Unloading: {mdl.Key}, {ex.ToString()}");
+                    modelDisposeList.Add($"Error Unloading: {mdl.Key}, {ex.Message}");
                 }
 
             }
