@@ -120,9 +120,12 @@ namespace Chatbee.ML
                 if (item.Utterance == request.Utterance)
                 {
                     //return for exact match
-                    Output exactMatchOutput = new Output();
-                    exactMatchOutput.ExactMatch = true;
-                    exactMatchOutput.Prediction = item.Label;
+                    Output exactMatchOutput = new Output()
+                    {
+                        ExactMatch = true,
+                        Prediction = item.Label
+                    };
+                         
                     response.Result = exactMatchOutput;
                     return response;
                 }
@@ -136,7 +139,7 @@ namespace Chatbee.ML
             Output result = prediction.Predict(input);
             result.ExactMatch = false;
 
-            //loop
+            //if dataset exists, loop it to add labels for each ml score
             if (chatbeeModel.DataSet != null && chatbeeModel.DataSet.Count > 0)
             {
                 for (int scr = 0; scr < result.Score.Length; scr++)
@@ -145,11 +148,9 @@ namespace Chatbee.ML
                     var datasetItem = chatbeeModel.DataSet[scr];
                     detailedScore.Label = datasetItem.Label;
                     detailedScore.Utterance = datasetItem.Utterance;
-                    detailedScore.score = result.Score[scr];
+                    detailedScore.Score = result.Score[scr];
                     result.Details.Add(detailedScore);
                 }
-
-               //todo: process score details
             }
 
             response.Result = result;
@@ -180,7 +181,7 @@ namespace Chatbee.ML
             throw new NotImplementedException();
         }
 
-        #region MLdotNet
+        #region MLDotNet
         public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations

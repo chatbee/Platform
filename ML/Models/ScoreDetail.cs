@@ -7,6 +7,6 @@ namespace Chatbee.ML.Models
 {
     public class ScoreDetail : Input
     {
-        public float score { get; set; }
+        public float Score { get; set; }
     }
 }

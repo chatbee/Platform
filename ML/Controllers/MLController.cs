@@ -18,6 +18,12 @@ namespace Chatbee.ML.Controllers
         {
             _mlService = mlService;
         }
+        /// <summary>
+        /// Trains a new model which can be subsequently predicted.
+        /// </summary>
+        /// <param name="request">Represents the input which will be used to create a binary model.</param>
+        /// <returns>TrainingResponse object which contains the training result.</returns>
+        /// <remarks>This method must be called at least one time before attempting to make a prediction.</remarks>
         [HttpPost]
         [Route("Train")]
         public ActionResult Train(TrainingRequest request)
@@ -27,31 +33,42 @@ namespace Chatbee.ML.Controllers
             return Ok(trainingResponse);
         }
 
+        /// <summary>
+        /// Attempts to make a prediction (or 'Score') against a model.
+        /// </summary>
+        /// <param name="request">Represents the input that is required to be predicted.</param>
+        /// <returns>ScoringResponse object which contains the prediction result.</returns>
+        /// <remarks>A model must first be trained using the <c>Train</c> method before a prediction can take place.</remarks>
         [HttpPost]
         [Route("Score")]
         [Route("Predict")]
         public ActionResult Score(ScoringRequest request)
         {
-            //request.ModelName
-            //request.Utterance
-            //api/ml/score && //api/ml/predict
             var scoringResponse = _mlService.Predict(request);
             return Ok(scoringResponse);
         }
 
+        /// <summary>
+        /// Returns the current status of the singleton ML Service.
+        /// </summary>
+        /// <returns>ML Service Data including loaded model information and initialization information.</returns>
         [HttpGet]
         [Route("Status")]
         public MLStatusResponse Status()
         {
-            //api/ml/status
+ 
             return _mlService.Status();
         }
 
+        /// <summary>
+        /// Sample Code demonstrating a successful training and result.  This method can be called to quickly generate a model for prediction testing. 
+        /// </summary>
+        /// <returns>A Training Response using pre-defined data.</returns>
         [HttpGet]
         [Route("TrainSample")]
         public TrainingResponse TrainSample()
         {
-            //api/ml/trainsample
+           
             //create training request
             var req = new TrainingRequest();
 
