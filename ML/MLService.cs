@@ -166,15 +166,15 @@ namespace Chatbee.ML
         }
            
 
-        public void LoadModels()
+        public static void LoadModels()
         {
             throw new NotImplementedException();
         }
-        public void UnloadModels()
+        public static void UnloadModels()
         {
             throw new NotImplementedException();
         }
-        public void ReloadModels()
+        public static void ReloadModels()
         {
             throw new NotImplementedException();
         }
