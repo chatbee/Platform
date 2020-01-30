@@ -45,7 +45,7 @@ namespace Chatbee.ML
             //create test train split
             DataOperationsCatalog.TrainTestData dataSplitView = mlContext.Data.TrainTestSplit(dataView, testFraction: 0.2);
             IDataView trainData = dataSplitView.TrainSet;
-            IDataView testData = dataSplitView.TestSet;
+           
 
             //create pipeline for training
             IEstimator<ITransformer> mlPipeline = BuildTrainingPipeline(mlContext);
