@@ -104,7 +104,29 @@ namespace Chatbee.ML.Controllers
 
 
         }
-            
+
+        /// <summary>
+        /// Attempts to load all known model files.
+        /// </summary>
+        /// <returns>List of loaded models</returns>
+        [HttpGet]
+        [Route("LoadModels")]
+        public List<string> LoadModels()
+        {
+            return _mlService.LoadModels();
+        }
+
+        /// <summary>
+        /// Attempts to dispose all loaded model files
+        /// </summary>
+        /// <returns>List of loaded models</returns>
+        [HttpGet]
+        [Route("DisposeModels")]
+        public List<string> DisposeModels()
+        {
+            return _mlService.DisposeModels();
+        }
+
 
 
 

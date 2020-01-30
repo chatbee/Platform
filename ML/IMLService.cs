@@ -11,5 +11,8 @@ namespace Chatbee.ML
         TrainingResponse Train(TrainingRequest request);
         ScoringResponse Predict(ScoringRequest request);
         MLStatusResponse Status();
+        List<string> LoadModels();
+        List<string> DisposeModels();
+
     }
 }

@@ -13,6 +13,7 @@ namespace Chatbee.ML
     {
         public DateTime ServiceLoaded { get; set; }
         public Dictionary<string, ChatbeeModel> LoadedModels { get; set; } = new Dictionary<string, ChatbeeModel>();
+        public string ModelPath { get; set; } = "Data\\Models\\";
         public MLService()
         {
             ServiceLoaded = DateTime.Now;
@@ -45,7 +46,7 @@ namespace Chatbee.ML
             //create test train split
             DataOperationsCatalog.TrainTestData dataSplitView = mlContext.Data.TrainTestSplit(dataView, testFraction: 0.2);
             IDataView trainData = dataSplitView.TrainSet;
-           
+
 
             //create pipeline for training
             IEstimator<ITransformer> mlPipeline = BuildTrainingPipeline(mlContext);
@@ -61,7 +62,7 @@ namespace Chatbee.ML
             chatBeeModel.DataSet = request.Dataset;
 
             //save model and return file name
-            var modelFileName = chatBeeModel.SaveModelToFile(mlContext, trainData.Schema, "Data\\Models\\");
+            var modelFileName = chatBeeModel.SaveModelToFile(mlContext, trainData.Schema, ModelPath);
 
             //set filename for response
             response.ModelName = modelFileName;
@@ -105,7 +106,7 @@ namespace Chatbee.ML
             if (!LoadedModels.ContainsKey(modelFileName))
             {
                 chatbeeModel = new ChatbeeModel().LoadModelFromFile(mlContext, modelFileName);
-                LoadedModels.Add(modelFileName, chatbeeModel); 
+                LoadedModels.Add(modelFileName, chatbeeModel);
             }
 
             ChatbeeModel loadedModel = LoadedModels[modelFileName];
@@ -123,11 +124,11 @@ namespace Chatbee.ML
                         ExactMatch = true,
                         Prediction = item.Label
                     };
-                         
+
                     response.Result = exactMatchOutput;
                     return response;
                 }
-              
+
             }
 
 
@@ -164,11 +165,59 @@ namespace Chatbee.ML
             response.ServiceLoaded = ServiceLoaded;
             return response;
         }
-           
 
-        public static void LoadModels()
+
+        public List<string> LoadModels()
         {
-            throw new NotImplementedException();
+            var modelLoadList = new List<string>();
+
+            //create ml context
+            var mlContext = new MLContext();
+
+            //get all model files
+            var modelFiles = System.IO.Directory.GetFiles(ModelPath);
+
+            //for each file, attempt to load into loaded models
+            foreach (var fil in modelFiles)
+            {
+                try
+                {
+                    var modelFile = new ChatbeeModel().LoadModelFromFile(mlContext, fil);
+                    this.LoadedModels.Add(fil, modelFile);
+                    modelLoadList.Add($"Loaded: {fil}");
+                }
+                catch (Exception ex)
+                {
+                    modelLoadList.Add($"Error Loading: {fil}, {ex.ToString()}");
+                }
+
+            }
+
+            return modelLoadList;
+
+        }
+
+        public List<string> DisposeModels()
+        {
+
+            var modelDisposeList = new List<string>();
+
+            foreach (var mdl in this.LoadedModels)
+            {
+                try
+                {
+                    this.LoadedModels.Remove(mdl.Key);
+                    modelDisposeList.Add($"Unloaded: {mdl.Key}");
+                }
+                catch (Exception ex)
+                {
+                    modelDisposeList.Add($"Error Unloading: {mdl.Key}, {ex.ToString()}");
+                }
+
+            }
+
+            return modelDisposeList;
+
         }
         public static void UnloadModels()
         {
