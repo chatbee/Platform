@@ -28,7 +28,7 @@ namespace Chatbee.ML
 
             if (request.Dataset.Count == 0)
             {
-                throw new Exception("No data loaded");
+                throw new ArgumentNullException("No data loaded");
             }
 
 
