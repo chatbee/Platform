@@ -219,14 +219,8 @@ namespace Chatbee.ML
             return modelDisposeList;
 
         }
-        public static void UnloadModels()
-        {
-            throw new NotImplementedException();
-        }
-        public static void ReloadModels()
-        {
-            throw new NotImplementedException();
-        }
+       
+      
 
         #region MLDotNet
         public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
