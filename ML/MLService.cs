@@ -37,8 +37,6 @@ namespace Chatbee.ML
 
             response.Started = DateTime.Now;
 
-            //log dataset as metadata
-            //var jsonDataset = Newtonsoft.Json.JsonConvert.SerializeObject(request.Dataset);
 
             //create ml context for training
             var mlContext = new MLContext(seed: 0);
