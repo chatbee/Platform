@@ -27,7 +27,7 @@
     "@auth0/angular-jwt": "^3.0.1",
     "hammerjs": "^2.0.8",
     "ngx-perfect-scrollbar": "^8.0.0",
-    "ngx-toastr": "^11.3.2",
+    "ngx-toastr": "^11.3.3",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "uuid": "^3.4.0",
