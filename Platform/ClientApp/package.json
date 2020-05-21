@@ -30,7 +30,7 @@
     "ngx-toastr": "^11.3.3",
     "rxjs": "~6.5.5",
     "tslib": "^1.13.0",
-    "uuid": "^8.0.0",
+    "uuid": "^8.1.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
