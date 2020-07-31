@@ -28,7 +28,7 @@
     "hammerjs": "^2.0.8",
     "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-toastr": "^11.3.3",
-    "rxjs": "~6.6.0",
+    "rxjs": "~6.6.2",
     "tslib": "^1.13.0",
     "uuid": "^8.3.0",
     "zone.js": "~0.9.1"
